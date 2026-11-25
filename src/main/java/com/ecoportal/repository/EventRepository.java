@@ -1,11 +1,13 @@
 package com.ecoportal.repository;
 
 import com.ecoportal.domain.Event;
+import jakarta.persistence.LockModeType;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
+import org.springframework.data.jpa.repository.Lock;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -30,6 +32,14 @@ public interface EventRepository extends JpaRepository<Event, UUID>, JpaSpecific
     Optional<Event> findPublishedById(@Param("id") UUID id);
 
     /**
+     * Пошук події з пессимістичним блокуванням рядка (SELECT ... FOR UPDATE).
+     * Серіалізує одночасне подання заявок на одну подію. Викликати лише в межах транзакції.
+     */
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
+    @Query("select e from Event e where e.id = :id")
+    Optional<Event> findByIdForUpdate(@Param("id") UUID id);
+
+    /**
      * Кількість активних заявок (PENDING та APPROVED) для кожної події.
      * Рядок результату: [0] - id події, [1] - кількість.
      */
@@ -47,4 +57,6 @@ public interface EventRepository extends JpaRepository<Event, UUID>, JpaSpecific
             WHERE a.event_id = :eventId AND a.status IN ('PENDING', 'APPROVED')
             """, nativeQuery = true)
     long countActiveByEventId(@Param("eventId") UUID eventId);
+
+    List<Event> findByInitiativeIdInOrderByStartsAtAsc(Collection<UUID> initiativeIds);
 }

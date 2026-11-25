@@ -10,4 +10,6 @@ import java.util.UUID;
 public interface InitiativeRepository extends JpaRepository<Initiative, UUID> {
 
     List<Initiative> findByStatusOrderByCreatedAtDesc(InitiativeStatus status);
+
+    List<Initiative> findByCoordinatorIdOrderByCreatedAtDesc(UUID coordinatorId);
 }

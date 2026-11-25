@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>ЕкоПортал — екологічні ініціативи та події</title>
+  <meta name="description" content="Екологічний інформаційний портал із заявками на участь у подіях">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <a class="skip-link" href="#main">Перейти до основного вмісту</a>
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="logo" href="#/" aria-label="ЕкоПортал — на головну">🌿 ЕкоПортал</a>
+      <nav id="main-nav" aria-label="Головна навігація"></nav>
+      <span id="user-name" class="user-name"></span>
+    </div>
+  </header>
+  <div id="notices" class="notices" aria-live="polite" aria-atomic="false" role="status"></div>
+  <main id="main" tabindex="-1">
+    <p class="muted">Завантаження…</p>
+  </main>
+  <footer class="site-footer"><p>© ЕкоПортал. Навчальний проєкт.</p></footer>
+  <noscript><p class="noscript">Для роботи порталу потрібно ввімкнути JavaScript.</p></noscript>
+  <script src="app.js"></script>
+</body>
+</html>

@@ -2,15 +2,25 @@ package com.ecoportal.exception;
 
 import org.springframework.http.HttpStatus;
 
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.Map;
+
 public abstract class ApiException extends RuntimeException {
 
     private final HttpStatus status;
     private final String code;
+    private final Map<String, String> fieldErrors;
 
     protected ApiException(HttpStatus status, String code, String message) {
+        this(status, code, message, Map.of());
+    }
+
+    protected ApiException(HttpStatus status, String code, String message, Map<String, String> fieldErrors) {
         super(message);
         this.status = status;
         this.code = code;
+        this.fieldErrors = Collections.unmodifiableMap(new LinkedHashMap<>(fieldErrors));
     }
 
     public HttpStatus getStatus() {
@@ -19,5 +29,9 @@ public abstract class ApiException extends RuntimeException {
 
     public String getCode() {
         return code;
+    }
+
+    public Map<String, String> getFieldErrors() {
+        return fieldErrors;
     }
 }

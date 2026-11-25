@@ -65,7 +65,7 @@ public class Event {
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
 
-    protected Event() {
+    public Event() {
     }
 
     @PrePersist
